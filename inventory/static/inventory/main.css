@@ -337,6 +337,29 @@ section {
 }
 
 
+
+@media screen and (max-width: 1520px) {
+
+
+    #cart-image{
+
+        width: 80px;
+    }
+
+    #technologist-usage-image {
+
+        width: 80px;
+    }
+
+    #set-preferences-image {
+
+        width: 80px;
+    }
+
+
+}
+
+
 @media screen and (max-width: 1400px) {
 
 
@@ -355,6 +378,34 @@ section {
 
 
 
+@media screen and (max-width: 1225px) {
+
+
+
+  #cart-image{
+
+        width: 80px;
+        
+    }
+
+    #technologist-usage-image {
+
+        width: 80px;
+        
+    }
+
+    #set-preferences-image {
+
+        width: 80px;
+        
+    }
+
+
+    #set-preferences{
+
+        display: block;
+        width: 100px;        
+    } 
 
 
 @media screen and (max-width: 1200px) {
@@ -450,7 +501,9 @@ section {
 
     #set-preferences {
 
+        display: inline;    
         margin-left: 50px;
+
     }
 
     #set-preferences-image {
@@ -464,6 +517,8 @@ section {
         margin-top: 30px;
         margin-left: 30px;
     }
+
+
 }
 
 
@@ -477,7 +532,7 @@ section {
 
 }
 
-@media (max-width: 1600px) {
+@media (max-width: 1500px) {
 
     #reagent-picker{
 
@@ -488,3 +543,18 @@ section {
 }
 
 
+/*            <img src="media/images/add-to-cart.png" class="me-2" id= "cart-image">
+                        <a href="{% url 'add_to_inventory' %}" class="btn btn-success mt-3" id="cart">Add Reagent</a>
+
+                    </div>
+
+                    <div class="col-xl">
+                        
+                        <img src="media/images/monitor.png" id= "technologist-usage-image">
+                        <a href="{% url 'tech_usage' %}" class="btn btn-success mt-3" id="technologist-usage">Technologist Usage</a>
+
+                    </div>
+
+                    <div class="col-xl">
+                        
+                        <img src="media/images/settings.png" class="ms-3" id="set-preferences-image">*/
