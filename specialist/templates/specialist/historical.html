@@ -1,0 +1,59 @@
+{% extends "inventory/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+
+
+	{% block content%}
+
+	<div class="container">
+		<div class="row mt-4">
+			<div class="col">
+				
+			</div>
+			<div class="col">
+				
+				<div class="card" style="width: 30rem;">
+				  <div class="card-body">
+				  	{% if historical_reagent %}
+				    	<h2 class="card-title text-center p-1" id="reagent-usage">{{historical_reagent.reagent_name_history}} Lot: {{historical_reagent.reagent_lot_history}} Usage</h2>
+				    {% else %}
+				    	<h2 class="card-title text-center p-1" id="reagent-usage">{{historical_reagent.reagent_name_history}} Reagent Has Not Been Used</h2>
+				    {% endif %}
+				    
+
+				    {% if historical_reagent %}
+				    	<h4>Total Usage:</h4>
+				    	<h6>{{total_usage.reagent_used__sum}}</h6>
+				    {% endif %}
+
+				    <form method="POST" id="date_form">
+				    	{% csrf_token %}
+						<div class="mb-3">
+							<label for="start_date" class="form-label mt-3">Start Date:</label>
+							<input type="datetime-local" class="form-control" id="start_date" required>
+						  </div>
+						<div class="mb-3">
+							<label for="end_date" class="form-label mt-3">End Date:</label>
+							<input type="datetime-local" class="form-control" id="end_date" required>
+						  </div>
+							<button type="submit" class="btn btn-primary">Submit</button>
+				    </form>
+
+				    <h5 id="date_selection_results" class="mt-4"></h5>
+				    <h5 id="dates"></h5>
+				    <h5 id="range_usage"></h5>
+
+				  </div>
+				</div>
+
+
+			</div>
+			<div class="col">
+				
+			</div>
+		</div>
+	</div>
+
+	{% endblock content %}

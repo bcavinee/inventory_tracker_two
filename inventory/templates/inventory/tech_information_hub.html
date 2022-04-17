@@ -1,0 +1,114 @@
+{% extends "inventory/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+
+
+	{% block content%}
+
+	<div class="container-fluid mt-3">
+		<div class="row">
+			<div class="col-md" id="reagent-picker">
+				
+				<h3 class="text-center">{{ department_name }} Reagent Selection</h3>
+
+				<form method="POST" id="user_reagent_selection">
+					{% csrf_token %}
+				  <div class="mb-3">
+				    <label for="id_reagent-choice" class="form-label">Reagent Choice</label>
+				    <input type="search" class="form-control" id="id_reagent_choice">
+				  </div>
+				  <div class="mb-3">
+				    <label for="id_amount_taken" class="form-label">Amount Taken</label>
+				    <input type="number" min="0" class="form-control" id="id_amount_taken">
+				  </div>
+					<button class="btn btn-primary" type="submit" id="department-form-button">Submit</button>
+				</form>
+				<p id="reagent_exist" class="mt-3"></p>
+			</div>
+
+			<div class="col-md" id="reagent_name_col">
+				
+				<div class="mt-5">
+					<h1 class="text-center" id="reagent_name">Reagent Name</h1>
+				</div>
+				<section>
+					<span class="trash">
+				    	<span id="lid"></span>
+				    	<i></i>
+				    </span>
+				</section>
+
+			</div>
+
+
+
+			<div class="col-md" id="reagent-quantity_col">
+				<div class="mt-5">
+
+					<h1 id="remove-success"></h1>
+					<h1 class="text-center mt-4" id="reagent_quantity">Reagent Remaining</h1>
+					<h5 class='text-center' id="remaining"></h5>
+				</div>
+			</div>
+				
+		</div>
+	</div>
+
+	<div class="container-fluid">
+		<div class="row mt-3">
+			<div class="col" id="reagent-table">
+				<table class="table table-striped">
+				  <thead>
+				    <tr>
+				      <th scope="col" id="h">Reagent Name</th>
+				      <th scope="col">Total Reagent</th>
+				      <th scope="col">Subtract One</th>
+				      
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr>
+				   	  {% for reagent_info in department %}
+				   	  {% if reagent_info.current_lot == True %}	
+					      <td>{{reagent_info.reagent_name}}</td>
+					      <td id="table-reagent_amount{{ forloop.counter }}">{{reagent_info.reagent_quantity}}</td>
+					      <td><button type="button" class="subtract-button" value="{{reagent_info.reagent_lot}}" id="sub-button">-</button></td>
+				      {% endif %}
+				    	
+				    </tr>
+				    {% endfor %}
+				  </tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+
+
+
+	<!-- Delete Modal -->
+	<div class="modal fade" id="reagent-modify-modal" tabindex="-1" aria-labelledby="reagent-modify-modalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="reagent-modify-modalLabel" id="#modify"></h5>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <div class="modal-body" id="delete-modal-body">
+	      	<h4 class="mb-4 text-danger">Warning Low Reagent Notify Technical Specialist</h4>
+	      	<img src="media/images/attention.png" class="rounded mx-auto d-block">
+	      </div>
+	    </div>
+	  </div>
+	</div>
+</div>
+</div>
+	{% endblock content %}
+
+	<!-- 				<form method="POST" id="user_reagent_selection">
+					{% csrf_token %}
+					{{ reagent_choice|crispy }}
+					<button class="btn btn-primary" type="submit" id="department-form-button">Go</button>
+				</form> -->

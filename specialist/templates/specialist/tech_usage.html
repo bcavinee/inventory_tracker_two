@@ -1,0 +1,57 @@
+{% extends "inventory/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+
+
+	{% block content%}
+
+
+	<div class="container">
+		<div class="row mt-4">
+			<div class="col"></div>
+			<div class="col">
+				<div class="card" style="width: 30rem;">
+				  <div class="card-body">
+				    <h2 class="card-title text-center p-1 mb-4" id="tech-usage-heading">Technologist Usage</h2>
+
+					<form method="POST" id="tech-usage-form" action="display_tech_usage">
+						{% csrf_token %}
+						<select class="form-select" aria-label="tech-selection" name="technologist-selection">
+						  <option selected >Choose Tech</option>
+						  {% for user in list_of_all_users %}
+						  	<option value="{{user}}">{{user}}</option>
+						  {% endfor %} 
+						</select>
+						<div class="mb-3">
+							<label for="start_date_user_usage" class="form-label mt-3">Start Date:</label>
+							<input type="datetime-local" class="form-control" name="start_date_user_usage" required>
+							 </div>
+						<div class="mb-3">
+							<label for="end_date_user_usage" class="form-label mt-3">End Date:</label>
+							<input type="datetime-local" class="form-control" name="end_date_user_usage" required>
+						</div>
+<!-- 					  <div class="mb-3">
+					  	<p class="fw-bold">All technologist usage in desired timeframe will be displayed.  If specifc reagent is needed, enter information below to show total use for chosen timeframe.</p>
+					    <label for="user-usage-reagent-selection">Chose Reagent</label>
+					    <input type="search" class="form-control" name="user-usage-specific-reagent">
+					  </div>
+					  <div class="mb-3">
+					    <label for="user-usage-reagent-selection">Chose Lot</label>
+					    <input type="number" class="form-control" name="user-usage-specific-reagent-lot">
+					  </div>	 -->					  											
+						<button class="btn btn-primary mt-3" type="submit" name="tech-selection-button">Submit</button>				    	
+					</form>
+
+				  </div>
+				</div>
+			</div>
+			<div class="col"></div>
+		</div>
+
+		
+	</div>
+
+
+	{% endblock content %}

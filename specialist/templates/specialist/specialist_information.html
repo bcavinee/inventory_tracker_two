@@ -1,0 +1,252 @@
+{% extends "inventory/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+
+
+	{% block content%}
+
+	<div class="container-fluid mt-3">
+		<div class="row">
+			<div class="col-xl " id="reagent-picker">
+				<h1 class="text-center">{{ department_name }} Specialist Hub</h1>
+
+				<form method="POST" id="specialist_reagent_selection">
+					{% csrf_token %}
+				  <div class="mb-3">
+				    <label for="specialist_reagent_choice" class="form-label">Reagent Choice</label>
+				    <input type="search" class="form-control" id="specialist_reagent_choice" required>
+				  </div>
+<!-- 				  <div class="mb-3">
+				    <label for="specialist_lot_choice" class="form-label">Reagent Lot</label>
+				    <input type="number" class="form-control" id="specialist_lot_choice" required>
+				  </div> -->
+				  <div class="form-check">
+				    <input class="form-check-input" type="checkbox" value="True" id="specialist_current_lot_choice">
+				    <label class="form-check-label" for="specialist_current_lot_choice">
+				    Current Lot?
+				    </label>
+				  </div>
+					<button class="btn btn-primary mt-3" type="submit" id="department-form-button">Submit</button>
+				</form>
+				<p id="exist" class="mt-3"></p>
+			</div>
+
+			<div class="col-xl" id="reagent_name_col">
+
+				<h1 class="text-center "id="specialist_reagent_heading">Reagent Name</h1>
+				<h3 class="mt-5">Amount Remaining:<span class="ms-3" id="specialist_reagent_amount"></span></h3>
+				<h3>Lot:<span class="ms-3" id="specialist_reagent_lot"></span></h3>
+				<h3>Expiration Date:<span class="ms-3" id="specialist_lot_date"></span></h3>
+				<h3>Current Lot:<span class="ms-3" id="specialist_lot_current"></span></h3>
+
+
+			</div>
+
+
+			<!-- <img src="media/images/attention.png" class="rounded mx-auto d-block"> -->
+
+			<div class="col-xl text-center" id="reagent-quantity_col">
+
+				<div class="row mt-4">
+					<div class="col-xl">
+						
+						<img src="media/images/add-to-cart.png" class="me-2" id= "cart-image">
+						<a href="{% url 'add_to_inventory' %}" class="btn btn-success mt-3" id="cart">Add Reagent</a>
+
+					</div>
+
+					<div class="col-xl">
+						
+						<img src="media/images/monitor.png" id= "technologist-usage-image">
+						<a href="{% url 'tech_usage' %}" class="btn btn-success mt-3" id="technologist-usage">Technologist Usage</a>
+
+					</div>
+
+					<div class="col-xl">
+						
+						<img src="media/images/settings.png" class="ms-3" id="set-preferences-image">
+						<a href="{% url 'specialist_preferences' %}" class="btn btn-success mt-3" id="set-preferences">Set Preferences</a>
+
+					</div>
+				</div>
+<!-- 
+				<div class="three-choices">
+
+					<img src="media/images/add-to-cart.png" class="me-4 mt-4">
+					
+					<img src="media/images/monitor.png" class=" me-5 ms-5 mt-4">
+
+					<img src="media/images/settings.png" class="ms-4 mt-4">
+					
+
+				</div>
+
+				<div>
+					<a href="{% url 'add_to_inventory' %}" class="btn btn-success mt-3" id="cart">Add Reagent</a>
+					<a href="{% url 'tech_usage' %}" class="btn btn-success ms-5 me-4 mt-3">Technologist Usage</a>
+					<a href="{% url 'specialist_preferences' %}" class="btn btn-success ms-4 mt-3">Set Preferences</a>
+				</div> -->
+<!-- 
+					<h1 class="text-center">Add Reagent</h1>
+					<a href="{% url 'add_to_inventory' %}" class="btn btn-success mt-3">Add Reagent</a>
+					<img src="media/images/settings.png" class="rounded mx-auto d-block">
+
+					<h1 class="text-center">Technologist Usage Information</h1>
+					<a href="{% url 'tech_usage' %}" class="btn btn-success mt-3">Technologist Usage</a>
+					<img src="media/images/monitor.png" class="rounded mx-auto d-block">
+
+					<h1 class="text-center">Specialist Preferences</h1>
+					<a href="{% url 'specialist_preferences' %}" class="btn btn-success mt-3">Set Preferences</a>
+					<img src="media/images/add-to-cart.png" class="rounded mx-auto d-block">	 -->				
+
+<!-- 				<div class="card" style="width: 10rem;">
+				  <img src="media/images/settings.png" class="card-img-top" alt="...">
+				  <div class="card-body">
+				    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				  </div>
+				</div>
+
+				<div class="card" style="width: 10rem;">
+				  <img src="media/images/monitor.png" class="card-img-top" alt="...">
+				  <div class="card-body">
+				    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				  </div>
+				</div>
+
+				<div class="card" style="width: 10rem;">
+				  <img src="media/images/add-to-cart.png" class="card-img-top" alt="...">
+				  <div class="card-body">
+				    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				  </div>
+				</div>		 -->		
+
+<!--  			<div class="row">
+ 				<div class="col-xl">
+ 					
+					<div class="card" style="width: 10rem;">
+					  <img src="media/images/settings.png" class="card-img-top" alt="...">
+					  <div class="card-body">
+					    <a href="{% url 'add_to_inventory' %}" class="btn btn-success mt-3">Add Reagent</a>
+					  </div>
+					</div>
+
+ 				</div>
+ 				<div class="col-xl">
+ 					
+					<div class="card" style="width: 10rem;">
+					  <img src="media/images/monitor.png" class="card-img-top" alt="...">
+					  <div class="card-body">
+					   <a href="{% url 'tech_usage' %}" class="btn btn-success mt-3">Technologist Usage</a>
+					  </div>
+					</div> 					
+
+ 				</div>
+ 				<div class="col-xl">
+ 					
+					<div class="card" style="width: 10rem;">
+					  <img src="media/images/add-to-cart.png" class="card-img-top" alt="...">
+					  <div class="card-body">
+					    <a href="{% url 'specialist_preferences' %}" class="btn btn-success mt-3">Set Preferences</a>
+					  </div>
+					</div>	
+
+ 				</div>
+ 			</div>
+ -->
+			</div>
+				
+		</div>
+	</div>
+
+	<div class="container-fluid">
+		<div class="row mt-3">
+			<div class="col" id="reagent-table">
+				<table class="table table-striped" id="specialist-table">
+				  <thead>
+				    <tr>
+				      <th scope="col" onclick="sortTable(0)">Reagent Name <img src="media/images/arrow.png"></th>
+				      <th scope="col" onclick="sortTableNum(0)">Total Reagent <img src="media/images/arrow.png"></th>
+				      <th scope="col" onclick="sortTableNum(1)">Lot Number <img src="media/images/arrow.png"></th>
+				      <th scope="col" >Lot Expiration Date</th>
+				      <th scope="col" onclick="sortTable(1)">Current Lot <img src="media/images/arrow.png"></th>
+				      <th scope="col">Modify</th>
+				      <th scope="col">Usage</th>
+				      <th scope="col">Delete</th>
+				      
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr>
+				   	  {% for reagent_info in department %}	
+				      <td class="sort-alphabetically">{{reagent_info.reagent_name}}</td>
+				      {% if reagent_info.reagent_quantity <= reagent_info.warning_amount %}
+				      	<td style="background-color: red;" id="table-reagent_amount{{ forloop.counter }}" class="sort-numerically">{{reagent_info.reagent_quantity}}</td>
+				      {% elif reagent_info.reagent_quantity > reagent_info.warning_amount %}
+						<td id="table-reagent_amount{{ forloop.counter }}" class="sort-numerically">{{reagent_info.reagent_quantity}}</td>
+				      {% endif%}
+				      <td id="table-reagent-lot{{ forloop.counter }}" class="sort-numerically">{{reagent_info.reagent_lot}}</td>
+				      <td id="table-reagent-lot-expiration{{ forloop.counter }}">{{reagent_info.reagent_lot_expiration}}</td>
+				      <td id="table-reagent_current-lot{{ forloop.counter }}" class="sort-alphabetically">{{reagent_info.current_lot}}</td>
+				      <td><form method="POST" id="modify-form">{% csrf_token %}<input type="hidden" name="modify_value" id="modify_form_hidden" value={{reagent_info.reagent_lot}}><button class="modify-button" type= "submit">Modify</button></form></td>
+				      <td><form method="POST" id="historical_usage">{% csrf_token %}<input type="hidden" name="historical_value" id="historical_form_hidden" value={{reagent_info.reagent_lot}}><button class="historical-button" type= "submit">Usage</button></form></td>
+				      <td><button type="button" class="delete-button" value="{{reagent_info.reagent_lot}}" data-bs-toggle="modal" data-bs-target="#reagent-delete-modal">Delete</button></td>
+				      
+				    	
+				    </tr>
+				    
+				    {% endfor %}
+				  </tbody>
+				</table>
+			</div>
+
+			<!-- Delete Modal -->
+			<div class="modal fade" id="reagent-delete-modal" tabindex="-1" aria-labelledby="reagent-delete-modalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="reagent-delete-modalLabel" id="#delete"></h5>
+			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			      </div>
+			      <div class="modal-body" id="delete-modal-body">
+			      	<h3 class="mb-4">Are you sure you want to delete?</h3>
+			      	<button type="button" class="btn btn-success me-2" data-bs-dismiss="modal" id="delete-button-true" value="True">Yes</button>
+			      	<button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+
+			<!-- Lot Selection Modal -->
+			<div class="modal fade" data-bs-backdrop="static" id="lot-selection-modal" tabindex="-1" aria-labelledby="lot-selection-modalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="lot-selection-modalLabel" id="#delete"></h5>
+			        <button type="button" class="btn-close" id="lot-selection-close-button" data-bs-dismiss="modal" aria-label="Close"></button>
+			      </div>
+			      <div class="modal-body" id="delete-modal-body">
+			      	<h3 class="mb-4" id="chose-lot"></h3>
+			      	<form method="POST" id="lot-selection-form">
+			      		{% csrf_token %}
+						<select class="form-select" name="lot-selection-dropdown" id="lot-selection-dropdown-modal" aria-label="Default select example">
+						  <option selected id="lot_selection_dropdown">Chose Lot Number</option>
+						</select>
+						<button class="btn btn-primary mt-3" type="submit" id="lot-selection-button">Submit</button>
+					</form>			      	
+			      </div>
+			    </div>
+			  </div>
+			</div>
+
+		</div>
+	</div>
+
+
+
+
+
+
+
+	{% endblock content %}

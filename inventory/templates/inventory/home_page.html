@@ -1,0 +1,95 @@
+{% extends "inventory/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+
+
+	{% block content%}
+
+	<!-- NEXT MAKE A MODAL THAT POPS UP AND ASK WHAT -->
+	<!-- maybe just try css to make this look better.  Look in video description to see how to do it -->
+
+	<div class="container">
+		<div class="row" id="spacing">
+
+
+			<div class="col-md-3"></div>
+
+
+			<div class="col-md-3" id="tech_col">
+				<div class="card border-primary h-100" id="tech">
+				  <div class="card-body">
+				    <h1 class="card-title text-center mt-3"><a href="#" class="text-decoration-none" id="tech-link" data-bs-toggle="modal" data-bs-target="#exampleModal">Technologist</a></h1>    
+				  </div>
+				</div>
+				<!-- Modal -->
+				<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				  <div class="modal-dialog">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title " id="exampleModalLabel">Choose Department</h5>
+				        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				      </div>
+				      <div class="modal-body">
+				      	<form method="POST">
+				      		{% csrf_token %}
+				      		{{ user_department_selection_form|crispy }}
+				      		<button class="btn btn-primary" type="submit" id="department-form-button" name="tech_department_selection">Go</button>
+				      	</form>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+			</div>
+
+
+
+			<div class="col-md-3" id="tech_spec_col">
+				<div class="card border-primary h-100" id="specialist">
+				  <div class="card-body">
+				    <h1 class="card-title text-center mt-3"><a href="#" class="text-decoration-none" data-bs-toggle="modal" id="specalist-link" data-bs-target="#specialistModal">Technical Specialist</a></h1>    
+				  </div>
+				</div>
+				<!-- Modal -->
+				<div class="modal fade" id="specialistModal" tabindex="-1" aria-labelledby="specialistModalLabel" aria-hidden="true">
+				  <div class="modal-dialog">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title " id="specialistModalLabel">Choose Department</h5>
+				        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				      </div>
+				      <div class="modal-body">
+				      	<form method="POST">
+				      		{% csrf_token %}
+				      		{{ specialist_selection_form|crispy }}
+				      		<button class="btn btn-primary" type="submit" id="department-form-button" name="specialist_department_selection">Go</button>
+				      	</form>
+				      </div>
+				    </div>
+				  </div>
+				</div>				
+			</div>		
+
+
+
+
+			<div class="col-md-3"></div>
+			
+		</div>
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	{% endblock content %}
