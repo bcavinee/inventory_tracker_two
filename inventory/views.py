@@ -76,79 +76,79 @@ def home_page(request):
 
 
 	
-	class check_expiration:
+	# class check_expiration:
 
-		#*********************  YOU CAN PROBABLY USE CLASS VARIABLES FOR SOME OF THIS.  LOOK AT REPEATED CODE WHEN YOU MAKE AN INSTANCE. ***********************
+	# 	#*********************  YOU CAN PROBABLY USE CLASS VARIABLES FOR SOME OF THIS.  LOOK AT REPEATED CODE WHEN YOU MAKE AN INSTANCE. ***********************
 
-		specialist_setup_model= apps.get_model(app_label="inventory", model_name= "specialist_setup")
-		specialist_preferences_model= apps.get_model(app_label="inventory", model_name= "specialist_preferences")
-
-
-		def __init__(self,department,specialist_reagent_model):
-
-			self.department= department
-			self.specialist_reagent_model= apps.get_model(app_label="inventory", model_name= specialist_reagent_model)
+	# 	specialist_setup_model= apps.get_model(app_label="inventory", model_name= "specialist_setup")
+	# 	specialist_preferences_model= apps.get_model(app_label="inventory", model_name= "specialist_preferences")
 
 
-		def send_expiration_email(self):
+	# 	def __init__(self,department,specialist_reagent_model):
 
-			#Getting all the specialist in model
-			all_specialist= check_expiration.specialist_setup_model.objects.all()
-			specialist_user= None
+	# 		self.department= department
+	# 		self.specialist_reagent_model= apps.get_model(app_label="inventory", model_name= specialist_reagent_model)
 
-			#Looping through specialist in model
-			for specialist in all_specialist:
-				#Getting a dict of all the attributes of the specialist setup model
-				dict_of_attributes= specialist.__dict__
-				#If the specialist is == the department from our instance.  Return that model object to specialist_user
-				if dict_of_attributes[self.department] == True:
-					specialist_user= specialist
 
-			#Getting the specialist email
-			specialist_email= specialist_user.user.email
-			#Getting the specalist preferences model by using the user from specialist user.
-			specialist_data= check_expiration.specialist_preferences_model.objects.get(specialist=specialist_user.user)
-			#Getting the number of days that the specialist selected to be notified of expiration 
-			specialist_alert= specialist_data.alert_for_expiration
-			specialist_alert_boolean= specialist_data.alert_for_expiration_yes_or_no
+	# 	def send_expiration_email(self):
 
-			#Checking if the user selects to have emails 
+	# 		#Getting all the specialist in model
+	# 		all_specialist= check_expiration.specialist_setup_model.objects.all()
+	# 		specialist_user= None
 
-			if specialist_alert_boolean == True:
+	# 		#Looping through specialist in model
+	# 		for specialist in all_specialist:
+	# 			#Getting a dict of all the attributes of the specialist setup model
+	# 			dict_of_attributes= specialist.__dict__
+	# 			#If the specialist is == the department from our instance.  Return that model object to specialist_user
+	# 			if dict_of_attributes[self.department] == True:
+	# 				specialist_user= specialist
+
+	# 		#Getting the specialist email
+	# 		specialist_email= specialist_user.user.email
+	# 		#Getting the specalist preferences model by using the user from specialist user.
+	# 		specialist_data= check_expiration.specialist_preferences_model.objects.get(specialist=specialist_user.user)
+	# 		#Getting the number of days that the specialist selected to be notified of expiration 
+	# 		specialist_alert= specialist_data.alert_for_expiration
+	# 		specialist_alert_boolean= specialist_data.alert_for_expiration_yes_or_no
+
+	# 		#Checking if the user selects to have emails 
+
+	# 		if specialist_alert_boolean == True:
 			
-				#Getting all of the reagents in the instance from self.specialist_reagent_model
-				reagent_lots= self.specialist_reagent_model.objects.values_list('reagent_lot', flat=True)
-				#Turning this into a list
-				reagent_lot_list= list(reagent_lots)
+	# 			#Getting all of the reagents in the instance from self.specialist_reagent_model
+	# 			reagent_lots= self.specialist_reagent_model.objects.values_list('reagent_lot', flat=True)
+	# 			#Turning this into a list
+	# 			reagent_lot_list= list(reagent_lots)
 				
-				#Looping through each reagent and checking its expiration date and send_email value.  Then getting a time delta.
-				#If the time delta is less than or equal to the alert value the specialist selected.
-				#Send email
-				for reagent_lot in reagent_lot_list:
+	# 			#Looping through each reagent and checking its expiration date and send_email value.  Then getting a time delta.
+	# 			#If the time delta is less than or equal to the alert value the specialist selected.
+	# 			#Send email
+	# 			for reagent_lot in reagent_lot_list:
 					
-					reagent_for_email= self.specialist_reagent_model.objects.get(reagent_lot= reagent_lot)
+	# 				reagent_for_email= self.specialist_reagent_model.objects.get(reagent_lot= reagent_lot)
 
-					todays_date= date.today()
-					expiration_date= reagent_for_email.reagent_lot_expiration
-					delta= (expiration_date - todays_date).days				
+	# 				todays_date= date.today()
+	# 				expiration_date= reagent_for_email.reagent_lot_expiration
+	# 				delta= (expiration_date - todays_date).days				
 
-					email_sent= reagent_for_email.email_sent
+	# 				email_sent= reagent_for_email.email_sent
 
-					if delta <= specialist_alert and email_sent == False:
+	# 				if delta <= specialist_alert and email_sent == False:
 
 						
-						send_mail("Reagent Expiration Warning",f"Warning {reagent_for_email.reagent_name} Lot: {reagent_lot} has expired",
-							"bcavinee@gmail.com",[specialist_email], fail_silently=False)	
+	# 					send_mail("Reagent Expiration Warning",f"Warning {reagent_for_email.reagent_name} Lot: {reagent_lot} has expired",
+	# 						"bcavinee@gmail.com",[specialist_email], fail_silently=False)	
 
-						set_sent_email_true= self.specialist_reagent_model.objects.get(reagent_lot= reagent_lot)
-						set_sent_email_true.email_sent= True
-						set_sent_email_true.save()
+	# 					set_sent_email_true= self.specialist_reagent_model.objects.get(reagent_lot= reagent_lot)
+	# 					set_sent_email_true.email_sent= True
+	# 					set_sent_email_true.save()
 
 
-	hematology= check_expiration("hematology_specialist","hematology_inventory")
-	hematology.send_expiration_email()
-	chemistry= check_expiration("chemistry_specialist","chemistry_inventory")
-	chemistry.send_expiration_email()
+	# hematology= check_expiration("hematology_specialist","hematology_inventory")
+	# hematology.send_expiration_email()
+	# chemistry= check_expiration("chemistry_specialist","chemistry_inventory")
+	# chemistry.send_expiration_email()
 
 	return render(request,'inventory/home_page.html',{'user_department_selection_form' : user_department_selection_form,
 		'specialist_selection_form' : specialist_selection_form})
