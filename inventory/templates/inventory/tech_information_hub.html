@@ -9,7 +9,7 @@
 
 	<div class="container-fluid mt-3">
 		<div class="row">
-			<div class="col-md" id="reagent-picker">
+			<div class="col-xl" id="reagent-picker">
 				
 				<h3 class="text-center">{{ department_name }} Reagent Selection</h3>
 
@@ -28,7 +28,7 @@
 				<p id="reagent_exist" class="mt-3"></p>
 			</div>
 
-			<div class="col-md" id="reagent_name_col">
+			<div class="col-xl" id="reagent_name_col">
 				
 				<div class="mt-5">
 					<h1 class="text-center" id="reagent_name">Reagent Name</h1>
@@ -44,7 +44,7 @@
 
 
 
-			<div class="col-md" id="reagent-quantity_col">
+			<div class="col-xl" id="reagent-quantity_col">
 				<div class="mt-5">
 
 					<h1 id="remove-success"></h1>
@@ -72,7 +72,7 @@
 				    <tr>
 				   	  {% for reagent_info in department %}
 				   	  {% if reagent_info.current_lot == True %}	
-					      <td>{{reagent_info.reagent_name}}</td>
+					      <td id='{{reagent_info.reagent_name|lower|cut:" "}}'>{{reagent_info.reagent_name}}</td>
 					      <td id="table-reagent_amount{{ forloop.counter }}">{{reagent_info.reagent_quantity}}</td>
 					      <td><button type="button" class="subtract-button" value="{{reagent_info.reagent_lot}}" id="sub-button">-</button></td>
 				      {% endif %}

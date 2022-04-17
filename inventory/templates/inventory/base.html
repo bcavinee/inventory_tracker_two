@@ -22,6 +22,7 @@
 	    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 	      <div class="navbar-nav ms-auto">
 	        <a class="nav-link active me-5" aria-current="page" href="{% url 'admin:index' %}">Admin</a>
+	        <a class="nav-link active me-5" aria-current="page" href="#">{{current_user}}</a>
 	        <a class="nav-link active me-5" aria-current="page" href="#">Credits</a>
 	        {% if user.is_authenticated %}
 				<a class="nav-link active me-5" href="{% url 'logout' %}">Logout</a>

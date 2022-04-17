@@ -150,8 +150,10 @@ def home_page(request):
 	chemistry= check_expiration("chemistry_specialist","chemistry_inventory")
 	chemistry.send_expiration_email()
 
+	current_user= request.user
+
 	return render(request,'inventory/home_page.html',{'user_department_selection_form' : user_department_selection_form,
-		'specialist_selection_form' : specialist_selection_form})
+		'specialist_selection_form' : specialist_selection_form, "current_user" : current_user})
 
 
 

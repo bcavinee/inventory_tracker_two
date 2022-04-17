@@ -93,13 +93,19 @@ $(document).on('submit','#user_reagent_selection', function(e) {
 
 			else if (response.reagent_exist == true) {
 
-
+				var reagentName= "#" + response.reagent_name
+				var reagentNameLower= reagentName.toLowerCase()
+				var reagentNameNoSpace= reagentNameLower.replace(/ /g,'')
+			
+				var reagentTableAmountLower= $(reagentNameNoSpace).next()
+				
+				
 				$("#reagent_exist").text("")
 				$("#reagent_name").text(response.reagent_name)
 				$("#reagent_quantity").text(response.updated_reagent_amount)
 				$("#remaining").text('Remaining')
 				$("#remove-success").text('Reagent Successfully Removed')		
-		
+				reagentTableAmountLower.text(response.updated_reagent_amount)
 			}
 
 			if (response.updated_reagent_amount <= response.warning_level) {
