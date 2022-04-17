@@ -359,6 +359,16 @@ section {
 
 }
 
+@media (max-width: 1500px) {
+
+    #reagent-picker{
+
+        height: 350px;
+    }
+ 
+
+}
+
 
 @media screen and (max-width: 1400px) {
 
@@ -406,6 +416,8 @@ section {
         display: block;
         width: 100px;        
     } 
+
+}  
 
 
 @media screen and (max-width: 1200px) {
@@ -532,29 +544,5 @@ section {
 
 }
 
-@media (max-width: 1500px) {
-
-    #reagent-picker{
-
-        height: 350px;
-    }
- 
-
-}
 
 
-/*            <img src="media/images/add-to-cart.png" class="me-2" id= "cart-image">
-                        <a href="{% url 'add_to_inventory' %}" class="btn btn-success mt-3" id="cart">Add Reagent</a>
-
-                    </div>
-
-                    <div class="col-xl">
-                        
-                        <img src="media/images/monitor.png" id= "technologist-usage-image">
-                        <a href="{% url 'tech_usage' %}" class="btn btn-success mt-3" id="technologist-usage">Technologist Usage</a>
-
-                    </div>
-
-                    <div class="col-xl">
-                        
-                        <img src="media/images/settings.png" class="ms-3" id="set-preferences-image">*/
