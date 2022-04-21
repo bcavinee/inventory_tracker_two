@@ -79,7 +79,7 @@ class chemistry_inventory(models.Model):
 	current_lot= models.BooleanField()
 	reagent_quantity= models.IntegerField()
 	warning_amount= models.IntegerField()
-	email_sent= models.BooleanField(default=False)
+	# email_sent= models.BooleanField(default=False)
 	
 	#Overriding the save method.  Checking to see if the new model instance reagent_name already exist and if its current lot is True.
 	#If True getting all of the reagents with that name and updating the current_lot to False.
