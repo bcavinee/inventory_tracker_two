@@ -2,6 +2,9 @@ from django.db import models
 from datetime import datetime  
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.core.exceptions import ObjectDoesNotExist
 
 #Modals to store chemistry and hematology data
 
@@ -119,8 +122,13 @@ class specialist_preferences(models.Model):
 	specialist= models.ForeignKey(User, on_delete=models.CASCADE)
 	alert_when_low= models.BooleanField(help_text="Email will be sent when reagent gets to warning level")
 	alert_for_expiration_yes_or_no= models.BooleanField()
-	alert_for_expiration= models.IntegerField(help_text="Chose days before expiration to receive a warning email ")
+	alert_for_expiration= models.IntegerField(help_text="Chose days before expiration to receive a warning email.  Leave blank if you do not want to recieve expiration emails.", blank=True, null=True)
 	alert_when_empty= models.BooleanField(help_text= "Send email when reagent is empty")
+
+	# @receiver(post_save, sender=User)
+	# def specialist_preferences_create(sender, instance, created, **kwargs):
+	# 	if created:
+	# 		specialist_preferences.objects.get_or_create(specialist=instance, alert_when_low= False, alert_for_expiration= None,  alert_when_empty= False)
 
 	class Meta:
 	   	verbose_name = 'Specialist Preferences'
@@ -131,8 +139,36 @@ class specialist_preferences(models.Model):
 		return message + " Preferences"
 
 
+
 class specialist_setup(models.Model):
 
+
 	user= models.OneToOneField(User, on_delete= models.CASCADE)
-	hematology_specialist= models.BooleanField(unique= True)
-	chemistry_specialist= models.BooleanField(unique= True)
+	hematology_specialist= models.BooleanField()
+	chemistry_specialist= models.BooleanField()
+
+	def save(self, *args, **kwargs):
+		try:
+
+
+			if self.hematology_specialist == True and self.chemistry_specialist == True:
+
+				self.hematology_specialist= False
+				self.chemistry_specialist= False
+				
+				
+
+			elif specialist_setup.objects.filter(hematology_specialist= True).exists() == True and self.hematology_specialist == True:
+				specialist_setup.objects.filter(hematology_specialist= True).update(hematology_specialist= False)
+				self.hematology_specialist= True
+
+
+
+			elif specialist_setup.objects.filter(chemistry_specialist= True).exists() == True and self.chemistry_specialist == True:
+				specialist_setup.objects.filter(chemistry_specialist= True).update(chemistry_specialist= False)
+				self.chemistry_specialist= True
+
+		except ObjectDoesNotExist:
+			print("sorry")
+
+		super(specialist_setup,self).save(*args,**kwargs)

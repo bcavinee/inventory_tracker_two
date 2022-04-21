@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import ModelForm
 from .models import hematology_inventory
 
 #Form to direct user to different department hub
@@ -25,6 +26,5 @@ class department_selection_form(forms.Form):
 class department_selection_specialist_form(forms.Form):
 
 	department_selection_specialist= forms.CharField(widget=forms.Select(choices=department_choices),label=False)
-
 
 

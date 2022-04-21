@@ -9,6 +9,8 @@ from django.core.mail import send_mail
 import time
 from django.contrib.auth.models import User
 from datetime import date, timedelta
+from django.core.exceptions import ObjectDoesNotExist
+
 
 def base(request):
 
@@ -104,46 +106,57 @@ def home_page(request):
 				if dict_of_attributes[self.department] == True:
 					specialist_user= specialist
 
-			#Getting the specialist email
-			specialist_email= specialist_user.user.email
-			#Getting the specalist preferences model by using the user from specialist user.
-			specialist_data= check_expiration.specialist_preferences_model.objects.get(specialist=specialist_user.user)
-			#Getting the number of days that the specialist selected to be notified of expiration 
-			specialist_alert= specialist_data.alert_for_expiration
-			specialist_alert_boolean= specialist_data.alert_for_expiration_yes_or_no
-
-			#Checking if the user selects to have emails 
-
-			if specialist_alert_boolean == True:
 			
-				#Getting all of the reagents in the instance from self.specialist_reagent_model
-				reagent_lots= self.specialist_reagent_model.objects.values_list('reagent_lot', flat=True)
-				#Turning this into a list
-				reagent_lot_list= list(reagent_lots)
-				
-				#Looping through each reagent and checking its expiration date and send_email value.  Then getting a time delta.
-				#If the time delta is less than or equal to the alert value the specialist selected.
-				#Send email
-				for reagent_lot in reagent_lot_list:
+			#Checking to see if a specialist has been chosen.
+			if specialist_user != None:
+
+				#Getting the specialist email
+				specialist_email= specialist_user.user.email
+				#Getting the specalist preferences model by using the user from specialist user.
+				try:
+					specialist_data= check_expiration.specialist_preferences_model.objects.get(specialist=specialist_user.user)
+					#Getting the number of days that the specialist selected to be notified of expiration 
+					specialist_alert= specialist_data.alert_for_expiration
+					specialist_alert_boolean= specialist_data.alert_for_expiration_yes_or_no
+
+					#Checking if the user selects to have emails 
+
+					if specialist_alert_boolean == True:
 					
-					reagent_for_email= self.specialist_reagent_model.objects.get(reagent_lot= reagent_lot)
-
-					todays_date= date.today()
-					expiration_date= reagent_for_email.reagent_lot_expiration
-					delta= (expiration_date - todays_date).days				
-
-					email_sent= reagent_for_email.email_sent
-
-					if delta <= specialist_alert and email_sent == False:
-
+						#Getting all of the reagents in the instance from self.specialist_reagent_model
+						reagent_lots= self.specialist_reagent_model.objects.values_list('reagent_lot', flat=True)
+						#Turning this into a list
+						reagent_lot_list= list(reagent_lots)
 						
-						send_mail("Reagent Expiration Warning",f"Warning {reagent_for_email.reagent_name} Lot: {reagent_lot} has expired",
-							"bcavinee@gmail.com",[specialist_email], fail_silently=False)	
+						#Looping through each reagent and checking its expiration date and send_email value.  Then getting a time delta.
+						#If the time delta is less than or equal to the alert value the specialist selected.
+						#Send email
+						for reagent_lot in reagent_lot_list:
+							
+							reagent_for_email= self.specialist_reagent_model.objects.get(reagent_lot= reagent_lot)
 
-						set_sent_email_true= self.specialist_reagent_model.objects.get(reagent_lot= reagent_lot)
-						set_sent_email_true.email_sent= True
-						set_sent_email_true.save()
+							todays_date= date.today()
+							expiration_date= reagent_for_email.reagent_lot_expiration
+							delta= (expiration_date - todays_date).days				
 
+							email_sent= reagent_for_email.email_sent
+
+							if delta <= specialist_alert and email_sent == False:
+
+								
+								send_mail("Reagent Expiration Warning",f"Warning {reagent_for_email.reagent_name} Lot: {reagent_lot} has expired",
+									"bcavinee@gmail.com",[specialist_email], fail_silently=False)	
+
+								set_sent_email_true= self.specialist_reagent_model.objects.get(reagent_lot= reagent_lot)
+								set_sent_email_true.email_sent= True
+								set_sent_email_true.save()
+
+				except ObjectDoesNotExist:
+
+					print("Specialist preferences not set") 
+
+			else:
+				print('not a specialist')
 
 	hematology= check_expiration("hematology_specialist","hematology_inventory")
 	hematology.send_expiration_email()
