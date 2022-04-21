@@ -71,31 +71,31 @@ class historical_hematology_inventory(models.Model):
 # 	def __str__(self):
 # 		return self.username		
 
-class chemistry_inventory(models.Model):
+# class chemistry_inventory(models.Model):
 
-	reagent_name= models.CharField(max_length=200)
-	reagent_lot= models.CharField(max_length=100, unique=True)
-	reagent_lot_expiration= models.DateField()
-	current_lot= models.BooleanField()
-	reagent_quantity= models.IntegerField()
-	warning_amount= models.IntegerField()
-	email_sent= models.BooleanField(default=False)
+# 	reagent_name= models.CharField(max_length=200)
+# 	reagent_lot= models.CharField(max_length=100, unique=True)
+# 	reagent_lot_expiration= models.DateField()
+# 	current_lot= models.BooleanField()
+# 	reagent_quantity= models.IntegerField()
+# 	warning_amount= models.IntegerField()
+# 	email_sent= models.BooleanField(default=False)
 	
-	#Overriding the save method.  Checking to see if the new model instance reagent_name already exist and if its current lot is True.
-	#If True getting all of the reagents with that name and updating the current_lot to False.
-	#Then setting the new model instance to True.
-	def save(self, *args, **kwargs):
-		if chemistry_inventory.objects.filter(reagent_name=self.reagent_name).exists() == True and self.current_lot == True:
-			chemistry_inventory.objects.filter(reagent_name=self.reagent_name).update(current_lot= False)
-			self.current_lot= True
-		super(chemistry_inventory,self).save(*args,**kwargs)
+# 	#Overriding the save method.  Checking to see if the new model instance reagent_name already exist and if its current lot is True.
+# 	#If True getting all of the reagents with that name and updating the current_lot to False.
+# 	#Then setting the new model instance to True.
+# 	def save(self, *args, **kwargs):
+# 		if chemistry_inventory.objects.filter(reagent_name=self.reagent_name).exists() == True and self.current_lot == True:
+# 			chemistry_inventory.objects.filter(reagent_name=self.reagent_name).update(current_lot= False)
+# 			self.current_lot= True
+# 		super(chemistry_inventory,self).save(*args,**kwargs)
 			
-	class Meta:
-	   	verbose_name = 'Chemistry Inventory'
-	   	verbose_name_plural = 'Chemistry Inventory'
+# 	class Meta:
+# 	   	verbose_name = 'Chemistry Inventory'
+# 	   	verbose_name_plural = 'Chemistry Inventory'
 
-	def __str__(self):
-		return self.reagent_name 
+# 	def __str__(self):
+# 		return self.reagent_name 
 
 
 
