@@ -125,10 +125,10 @@ class specialist_preferences(models.Model):
 	alert_for_expiration= models.IntegerField(help_text="Chose days before expiration to receive a warning email.  Leave blank if you do not want to recieve expiration emails.", blank=True, null=True)
 	alert_when_empty= models.BooleanField(help_text= "Send email when reagent is empty")
 
-	# @receiver(post_save, sender=User)
-	# def specialist_preferences_create(sender, instance, created, **kwargs):
-	# 	if created:
-	# 		specialist_preferences.objects.get_or_create(specialist=instance, alert_when_low= False, alert_for_expiration= None,  alert_when_empty= False)
+	@receiver(post_save, sender=User)
+	def specialist_preferences_create(sender, instance, created, **kwargs):
+		if created:
+			specialist_preferences.objects.get_or_create(specialist=instance, alert_when_low= False, alert_when_empty= False, alert_for_expiration_yes_or_no=False)
 
 	class Meta:
 	   	verbose_name = 'Specialist Preferences'
